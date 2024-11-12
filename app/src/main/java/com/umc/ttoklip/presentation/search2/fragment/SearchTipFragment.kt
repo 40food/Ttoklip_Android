@@ -56,7 +56,7 @@ class SearchTipFragment() :
         binding.filterSpinner.setSelection(0)
         binding.filterSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                viewModel.reset(1)
+                viewModel.reset(2)
                 if (binding.filterSpinner.selectedItem == "최신순"){
                     viewModel.getTipSearch("latest")
                 } else{
