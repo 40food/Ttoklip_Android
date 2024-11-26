@@ -19,6 +19,8 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.math.round
+import kotlin.math.roundToInt
 
 @HiltViewModel
 class HoneyTipViewModel @Inject constructor(
@@ -80,7 +82,7 @@ class HoneyTipViewModel @Inject constructor(
                 questionPagingObjects[SAFE_LIVING].initList(it.questionCategory.safeLiving)
                 questionPagingObjects[WELFARE_POLICY].initList(it.questionCategory.welfarePolicy)
 
-                Log.d("HoneyTipMain api", it.toString())
+                //Log.d("HoneyTipMain api", it.toString())
             }
         }
     }
@@ -102,6 +104,8 @@ class HoneyTipViewModel @Inject constructor(
                     try {
                         repository.getHoneyTipByCategory(category, page.value)
                             .onSuccess {
+                                list.value.distinctBy { it.id }
+                                //if(list.value.last() != it.data.last())
                                 list.emit(list.value + it.data)
                                 page.value = page.value + 1
                                 isEnd.value = it.isLast
@@ -172,7 +176,7 @@ class HoneyTipViewModel @Inject constructor(
         }
 
         fun resetList() {
-            this.list.value = prevList
+            //this.list.value = prevList
             isEnd.value = false
             page.value = 1
         }
