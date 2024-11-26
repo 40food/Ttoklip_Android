@@ -23,7 +23,7 @@ class HoneyTipListRVA(private val context: Context, private var listener: OnItem
             oldItem: HoneyTipMain,
             newItem: HoneyTipMain
         ): Boolean {
-            return oldItem === newItem
+            return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(

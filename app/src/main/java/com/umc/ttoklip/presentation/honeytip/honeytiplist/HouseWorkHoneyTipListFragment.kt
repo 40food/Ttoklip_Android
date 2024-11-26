@@ -64,7 +64,7 @@ class HouseWorkHoneyTipListFragment : Fragment(),
     }
 
     fun initObserver() {
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.houseworkHoneyTip.collect {
                     if(it.size==0){
@@ -136,9 +136,4 @@ class HouseWorkHoneyTipListFragment : Fragment(),
         viewModel.resetHoneyTipList("HOUSEWORK")
     }
 
-    override fun onStop() {
-        super.onStop()
-        Log.d("HOUSEWORK stop", "stop")
-        //viewModel.resetHoneyTipList("HOUSEWORK")
-    }
 }
