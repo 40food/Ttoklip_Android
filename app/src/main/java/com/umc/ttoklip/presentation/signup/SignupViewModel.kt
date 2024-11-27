@@ -6,6 +6,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.gson.Gson
 import com.umc.ttoklip.R
 import com.umc.ttoklip.TtoklipApplication
 import com.umc.ttoklip.data.model.login.LoginLocalRequest
@@ -53,7 +54,7 @@ class SignupViewModel @Inject constructor(
     }
     fun verifySend(email:String){
         viewModelScope.launch {
-            signupRepository.verifySend(VerifyRequest(email, ""))
+            signupRepository.verifySend(mapOf("email" to email))
         }
     }
 
@@ -103,12 +104,16 @@ class SignupViewModel @Inject constructor(
                     }.onFail {message->
                         nickok.emit(false)
                         fail_message.value=message
+                    }.onError {
+                        nickok.emit(false)
                     }
             }else{
                 signupRepository.checkNickname(nick)
                     .onSuccess {
                         nickok.emit(true)
                     }.onFail {
+                        nickok.emit(false)
+                    }.onError {
                         nickok.emit(false)
                     }
             }

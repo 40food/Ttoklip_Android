@@ -54,9 +54,9 @@ class TermViewModel @Inject constructor(
             termRepository.getTerm()
                 .onSuccess {
 //                    for(term in it){
-                    termDatas.value.add(Term(it.agreeTermsOfService.termId,it.agreeTermsOfService.termTitle,it.agreeTermsOfService.termContent))
-                    termDatas.value.add(Term(it.agreePrivacyPolicy.termId,it.agreePrivacyPolicy.termTitle,it.agreePrivacyPolicy.termContent))
-                    termDatas.value.add(Term(it.agreeLocationService.termId,it.agreeLocationService.termTitle,it.agreeLocationService.termContent))
+                    termDatas.value.add(Term(it.agreeTermsOfService.termId,it.agreeTermsOfService.title,it.agreeTermsOfService.content))
+                    termDatas.value.add(Term(it.agreePrivacyPolicy.termId,it.agreePrivacyPolicy.title,it.agreePrivacyPolicy.content))
+                    termDatas.value.add(Term(it.agreeLocationService.termId,it.agreeLocationService.title,it.agreeLocationService.content))
 //                    }
                     Log.i("TERM","term 불러오기 성공")
                 }.onFail {

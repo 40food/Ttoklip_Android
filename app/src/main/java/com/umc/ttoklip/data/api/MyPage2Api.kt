@@ -3,10 +3,12 @@ package com.umc.ttoklip.data.api
 import com.umc.ttoklip.data.model.ResponseBody
 import com.umc.ttoklip.data.model.honeytip.CreateHoneyTipResponse
 import com.umc.ttoklip.data.model.mypage.MyPageInfoResponse
+import com.umc.ttoklip.data.model.signup.NickCheckRequest
 import com.umc.ttoklip.data.model.signup.SignupResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
+import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Multipart
 import retrofit2.http.PATCH
@@ -30,7 +32,7 @@ interface MyPage2Api {
         @Part("independentMonth") independentMonth: RequestBody
     ): Response<ResponseBody<CreateHoneyTipResponse>>
 
-    @GET("/api/v1/privacy/local/check-nickname")
-    suspend fun nickCheck(@Query("nickname") nickname:String)
+    @POST("/api/v1/privacy/local/check-nickname")
+    suspend fun nickCheck(@Body nickname: NickCheckRequest)
             : Response<ResponseBody<SignupResponse>>
 }

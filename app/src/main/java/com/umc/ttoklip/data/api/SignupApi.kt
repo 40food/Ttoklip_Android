@@ -2,8 +2,8 @@ package com.umc.ttoklip.data.api
 
 import com.umc.ttoklip.data.model.ResponseBody
 import com.umc.ttoklip.data.model.StandardResponse
+import com.umc.ttoklip.data.model.signup.NickCheckRequest
 import com.umc.ttoklip.data.model.signup.SignupResponse
-import com.umc.ttoklip.data.model.signup.SignupRequest
 import com.umc.ttoklip.data.model.signup.TermResponse
 import com.umc.ttoklip.data.model.signup.VerifyRequest
 import okhttp3.MultipartBody
@@ -11,7 +11,6 @@ import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
-import retrofit2.http.Header
 import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Part
@@ -22,7 +21,7 @@ interface SignupApi {
 
     @POST("/api/v1/email/send")
     suspend fun verifySend(
-        @Body request: VerifyRequest
+        @Body request: Map<String,String>
     ):Response<ResponseBody<StandardResponse>>
     @POST("/api/v1/email/verify")
     suspend fun verifyCheck(
@@ -33,12 +32,14 @@ interface SignupApi {
     suspend fun idCheck(@Query("newId") id:String)
     :Response<ResponseBody<StandardResponse>>
 
-    @GET("/api/v1/privacy/oauth/check-nickname")
-    suspend fun nickCheck(@Query("nickname") nickname:String)
-            : Response<ResponseBody<SignupResponse>>
-    @GET("/api/v1/privacy/local/check-nickname")
-    suspend fun nickCheckLocal(@Query("nickname") nickname: String)
-        : Response<ResponseBody<SignupResponse>>
+    @POST("/api/v1/privacy/oauth/check-nickname")
+    suspend fun nickCheck(
+        @Body nickname:NickCheckRequest
+    ): Response<ResponseBody<SignupResponse>>
+    @POST("/api/v1/privacy/local/check-nickname")
+    suspend fun nickCheckLocal(
+        @Body nickname: NickCheckRequest
+    ): Response<ResponseBody<SignupResponse>>
 
     //소셜 회원가입 정보 저장
     @Multipart
