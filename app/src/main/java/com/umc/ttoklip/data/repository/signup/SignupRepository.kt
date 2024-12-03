@@ -9,7 +9,7 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 
 interface SignupRepository {
-    suspend fun verifySend(request:VerifyRequest):NetworkResult<StandardResponse>
+    suspend fun verifySend(request:Map<String,String>):NetworkResult<StandardResponse>
     suspend fun verifyCheck(request: VerifyRequest):NetworkResult<StandardResponse>
     suspend fun checkId(id:String):NetworkResult<StandardResponse>
     suspend fun checkNickname(nick:String): NetworkResult<SignupResponse>

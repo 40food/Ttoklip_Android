@@ -158,6 +158,7 @@ class LocationActivity :
                     if (location != null) {
                         viewModel.getLegalcode(LatLng(location.latitude, location.longitude))
                         updateMapWithLocation(location.latitude,location.longitude)
+                        locationok=true
                     } else {
                         Log.d("getLastKnownLocation", "Location is null")
                     }
@@ -249,6 +250,7 @@ class LocationActivity :
             repeatOnLifecycle(Lifecycle.State.CREATED){
                 viewModel.street.collect{
                     binding.locationMytownDetailTv.text=it
+                    nextok()
                 }
             }
         }
