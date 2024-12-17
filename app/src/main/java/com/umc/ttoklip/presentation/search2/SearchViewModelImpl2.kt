@@ -67,6 +67,7 @@ class SearchViewModelImpl2 @Inject constructor(
 
     private val isNewsEnd = MutableStateFlow(false)
     private val newsPage = MutableStateFlow(0)
+    private val cartPage = MutableStateFlow(0)
 
     private val _searchTipList = MutableStateFlow(listOf<SearchModel>())
     override val searchTipList: StateFlow<List<SearchModel>>
@@ -105,6 +106,17 @@ class SearchViewModelImpl2 @Inject constructor(
 
                     }.onException {
                         throw it
+                    }
+                    searchRepository.getCartSearch(
+                        title = searchText.value,
+                        sort = sort,
+                        page = cartPage.value
+                    ).onSuccess {
+                        _searchTourList.emit(searchTourList.value +
+                        it.carts.map{ response ->
+                            response.toModel("",4)
+                        })
+                        Log.i("나도힘들다",_searchTourList.value.toString())
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()
@@ -152,10 +164,11 @@ class SearchViewModelImpl2 @Inject constructor(
                         sort = sort,
                         page = tipPage.value
                     ).onSuccess {
-                        _searchTipList.emit(searchTipList.value +
+                        _searchTipList.emit((searchTipList.value +
                                 it.honeyTips.map { response ->
                                     response.toModel(3)
-                                })
+                                }).distinctBy { it.id }
+                        )
                         tipPage.value = tipPage.value + 1
                         isTipEnd.value = it.isLast
                     }.onFail {

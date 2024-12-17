@@ -6,6 +6,7 @@ import com.umc.ttoklip.data.model.ResponseBody
 import com.umc.ttoklip.data.model.search.NewsSearchResponse
 import com.umc.ttoklip.data.model.search.SearchModel
 import com.umc.ttoklip.data.model.search.TipSearchResponse
+import com.umc.ttoklip.data.model.search.TogetherSearchResponse
 import com.umc.ttoklip.data.model.search.TownSearchResponse
 import com.umc.ttoklip.module.NetworkResult
 import com.umc.ttoklip.module.handleApi
@@ -61,6 +62,23 @@ class Search2RepositoryImpl @Inject constructor(
                 page =page
             )
         }) { response: ResponseBody<TownSearchResponse> ->
+            response.result
+        }
+
+    }
+
+    override suspend fun getCartSearch(
+        title: String,
+        sort: String,
+        page: Int
+    ): NetworkResult<TogetherSearchResponse> {
+        return handleApi({
+            api.getSearchCartApi(
+                title = title,
+                sort = sort,
+                page =page
+            )
+        }) { response: ResponseBody<TogetherSearchResponse> ->
             response.result
         }
 
