@@ -32,6 +32,10 @@ class CommunicationViewModelImpl @Inject constructor(
     override val criteria: StateFlow<String>
         get() = _criteria
 
+    private val _sort= MutableStateFlow("latest")
+    override val sort:StateFlow<String>
+        get() = _sort
+
     private val _streetInfo = MutableStateFlow<List<String>>(emptyList())
     override val streetInfo: StateFlow<List<String>>
         get() = _streetInfo
@@ -44,6 +48,22 @@ class CommunicationViewModelImpl @Inject constructor(
             else -> throw IllegalArgumentException()
         }
         if (_criteria.value.isNotEmpty()) {
+            _communities.value = listOf()
+            page.value = 0
+            isEnd.value = false
+            getCommunities()
+        }
+    }
+
+    override fun setSort(position: Int){
+        _sort.value = when (position) {
+            0 -> "latest"
+            1 -> "popularity"
+            2 -> "comment"
+            3 -> "scrap"
+            else -> throw IllegalArgumentException()
+        }
+        if (_sort.value.isNotEmpty()) {
             _communities.value = listOf()
             page.value = 0
             isEnd.value = false
@@ -69,7 +89,7 @@ class CommunicationViewModelImpl @Inject constructor(
         if (!isEnd.value) {
             viewModelScope.launch(Dispatchers.IO) {
                 try {
-                    repository.getComms(page = page.value, criteria.value)
+                    repository.getComms(page = page.value, criteria.value, sort.value)
                         .onSuccess {
                             _communities.value = communities.value + it.communities
                             page.value += 1

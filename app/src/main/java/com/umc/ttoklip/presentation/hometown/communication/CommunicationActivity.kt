@@ -41,20 +41,11 @@ class CommunicationActivity :
             val intent = Intent(this, WriteCommunicationActivity::class.java)
             startActivity(intent)
         }
-        val sortFilters = listOf(
-            getString(R.string.sort_most_recent),
-            getString(R.string.sort_popularity),
-            getString(R.string.sort_most_comments),
-            getString(R.string.sort_most_scrap)
-        )
         binding.bellBtn.setOnSingleClickListener {
             startActivity(AlarmActivity.newIntent(this))
         }
 
-        binding.honeyTipFilterSpinner.adapter =
-            SortSpinnerAdapter(this, sortFilters)
-        binding.honeyTipFilterSpinner.setSelection(0)
-
+        initSort()
 
         binding.communicationRv.apply {
             adapter = adapter
@@ -103,6 +94,31 @@ class CommunicationActivity :
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
 
+            }
+        }
+    }
+
+    private fun initSort(){
+        val sortFilters = listOf(
+            getString(R.string.sort_most_recent),
+            getString(R.string.sort_popularity),
+            getString(R.string.sort_most_comments),
+            getString(R.string.sort_most_scrap)
+        )
+        binding.honeyTipFilterSpinner.adapter =
+            SortSpinnerAdapter(this, sortFilters)
+        binding.honeyTipFilterSpinner.setSelection(0)
+        binding.honeyTipFilterSpinner.onItemSelectedListener = object:
+            AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                viewModel.setSort(position)
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {
             }
         }
     }

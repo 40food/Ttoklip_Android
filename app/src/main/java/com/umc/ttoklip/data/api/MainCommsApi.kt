@@ -10,6 +10,7 @@ interface MainCommsApi {
     @GET("/api/v1/town/main/community")
     suspend fun commsList(
         @Query("page") page :Int,
-        @Query("criteria") criteria: String
+        @Query("criteria") criteria: String,
+        @Query("sort") sort: String,
     ): Response<ResponseBody<CommsResponse>>
 }
