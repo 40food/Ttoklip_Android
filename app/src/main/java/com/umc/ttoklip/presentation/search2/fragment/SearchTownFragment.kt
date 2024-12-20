@@ -14,6 +14,7 @@ import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.FragmentItemSearchBinding
 import com.umc.ttoklip.presentation.base.BaseFragment
 import com.umc.ttoklip.presentation.hometown.communication.read.ReadCommunicationActivity
+import com.umc.ttoklip.presentation.hometown.together.read.ReadTogetherActivity
 import com.umc.ttoklip.presentation.mypage.SortSpinnerAdapter
 import com.umc.ttoklip.presentation.news.detail.ArticleActivity
 import com.umc.ttoklip.presentation.search.adapter.SearchRVA
@@ -45,7 +46,12 @@ class SearchTownFragment() :
                 3 -> {
                 }
 
-                4 -> {}
+                4 -> {startActivity(
+                    ReadTogetherActivity.newIntent(
+                        requireContext(),
+                        id.toLong()
+                    )
+                )}
                 5 -> {
                     startActivity(
                         ReadCommunicationActivity.newIntent(

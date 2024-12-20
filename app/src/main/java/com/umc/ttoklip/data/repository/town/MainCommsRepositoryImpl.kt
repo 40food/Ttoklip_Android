@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 class MainCommsRepositoryImpl @Inject constructor(private val api: MainCommsApi) :
     MainCommsRepository {
-    override suspend fun getComms(page : Int, criteria: String): NetworkResult<CommsResponse> {
-        return handleApi({ api.commsList(page, criteria) }) { response: ResponseBody<CommsResponse> -> response.result }
+    override suspend fun getComms(page : Int, criteria: String, sort: String): NetworkResult<CommsResponse> {
+        return handleApi({ api.commsList(page, criteria, sort) }) { response: ResponseBody<CommsResponse> -> response.result }
     }
 }

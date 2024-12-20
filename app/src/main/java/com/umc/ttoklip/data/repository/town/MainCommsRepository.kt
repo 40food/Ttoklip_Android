@@ -5,5 +5,5 @@ import com.umc.ttoklip.module.NetworkResult
 import retrofit2.http.Query
 
 interface MainCommsRepository {
-    suspend fun getComms(page :Int, criteria: String): NetworkResult<CommsResponse>
+    suspend fun getComms(page :Int, criteria: String, sort: String): NetworkResult<CommsResponse>
 }

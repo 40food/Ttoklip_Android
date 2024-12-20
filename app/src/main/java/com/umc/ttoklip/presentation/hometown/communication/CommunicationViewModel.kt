@@ -7,8 +7,10 @@ interface CommunicationViewModel {
     val communities: StateFlow<List<Communities>>
     val criteria: StateFlow<String>
     val streetInfo: StateFlow<List<String>>
+    val sort: StateFlow<String>
 
     fun setCriteria(position: Int)
+    fun setSort(position:Int)
     fun getCommunities()
 
     fun getMemberStreetInfo()

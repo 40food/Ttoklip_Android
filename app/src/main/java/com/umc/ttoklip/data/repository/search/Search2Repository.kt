@@ -7,6 +7,7 @@ import com.umc.ttoklip.data.model.news.detail.NewsDetailResponse
 import com.umc.ttoklip.data.model.search.NewsSearchResponse
 import com.umc.ttoklip.data.model.search.SearchModel
 import com.umc.ttoklip.data.model.search.TipSearchResponse
+import com.umc.ttoklip.data.model.search.TogetherSearchResponse
 import com.umc.ttoklip.data.model.search.TownSearchResponse
 import com.umc.ttoklip.module.NetworkResult
 
@@ -17,4 +18,5 @@ interface Search2Repository {
     suspend fun getTipSearch(title : String, sort: String, page: Int): NetworkResult<TipSearchResponse>
 
     suspend fun getTownSearch(title : String, sort: String, page: Int): NetworkResult<TownSearchResponse>
+    suspend fun getCartSearch(title: String, sort: String, page: Int): NetworkResult<TogetherSearchResponse>
 }
