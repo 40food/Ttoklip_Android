@@ -111,8 +111,9 @@ class SignupViewModel @Inject constructor(
                 signupRepository.checkNickname(nick)
                     .onSuccess {
                         nickok.emit(true)
-                    }.onFail {
+                    }.onFail {message->
                         nickok.emit(false)
+                        fail_message.value=message
                     }.onError {
                         nickok.emit(false)
                     }
@@ -184,6 +185,9 @@ class SignupViewModel @Inject constructor(
 //    var streetVisible=MutableStateFlow<String>("")
     val saveok=MutableStateFlow<Boolean>(false)
     val loginok=MutableStateFlow<Boolean>(false)
+    private val _errorData = MutableStateFlow("")
+    val errorData: StateFlow<String>
+        get() = _errorData
 
     fun getLegalcode(coord: com.naver.maps.geometry.LatLng){
         viewModelScope.launch {
@@ -252,13 +256,16 @@ class SignupViewModel @Inject constructor(
             requestMap["independentYear"] = independenctYear.value.toString().toRequestBody("text/plain".toMediaTypeOrNull())
             requestMap["independentMonth"] = independenctMonth.value.toString().toRequestBody("text/plain".toMediaTypeOrNull())
 
+
+
             if(type=="local"){
                 signupRepository.savePrivacyLocal(fileToUpload, requestMap, cate)
                     .onSuccess {
                         Log.i("USERSAVE", "성공")
                         saveok.emit(true)
-                    }.onFail {
+                    }.onFail {message->
                         Log.i("USERSAVE", "실패")
+                        _errorData.emit(message)
                     }.onError {
                         Log.d("USERSAVE ERROR", it.toString())
                     }
@@ -267,8 +274,10 @@ class SignupViewModel @Inject constructor(
                     .onSuccess {
                         Log.i("USERSAVE", "성공")
                         saveok.emit(true)
-                    }.onFail {
-                        Log.d("USERSAVE", "실패")
+                    }.onFail {message->
+                        Log.d("USERSAVE", message)
+                        if(message.isEmpty())_errorData.emit(TtoklipApplication.getString(R.string.unknown))
+                        else _errorData.emit(message)
                     }.onError {
                         Log.d("USERSAVE ERROR", it.toString())
                     }

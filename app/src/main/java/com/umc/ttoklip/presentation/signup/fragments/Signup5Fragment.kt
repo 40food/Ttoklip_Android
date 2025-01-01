@@ -3,8 +3,12 @@ package com.umc.ttoklip.presentation.signup.fragments
 import android.content.Intent
 import android.os.Bundle
 import android.widget.SeekBar
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.umc.ttoklip.R
 import com.umc.ttoklip.databinding.FragmentSignup5Binding
 import com.umc.ttoklip.presentation.MainActivity
@@ -15,6 +19,7 @@ import com.umc.ttoklip.presentation.signup.location.LocationActivity
 import com.umc.ttoklip.presentation.signup.SignupActivity
 import com.umc.ttoklip.presentation.signup.SignupViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class Signup5Fragment: BaseFragment<FragmentSignup5Binding>(R.layout.fragment_signup5) {
@@ -23,6 +28,13 @@ class Signup5Fragment: BaseFragment<FragmentSignup5Binding>(R.layout.fragment_si
     private lateinit var range: String
 
     override fun initObserver() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.errorData.collect {
+                    Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+                }
+            }
+        }
     }
 
     override fun initView() {

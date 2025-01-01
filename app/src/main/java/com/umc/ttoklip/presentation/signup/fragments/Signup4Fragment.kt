@@ -94,7 +94,6 @@ class Signup4Fragment : BaseFragment<FragmentSignup4Binding>(R.layout.fragment_s
     override fun initView() {
         viewModel= ViewModelProvider(requireActivity()).get(SignupViewModel::class.java)
         termVm=ViewModelProvider(requireActivity()).get(TermViewModel::class.java)
-        Log.i("type test",viewModel.signupType.value)
         Glide.with(this)
             .load(R.raw.profile_image_default)
             .into(binding.signup4ProfileImageIv)
