@@ -9,6 +9,7 @@ interface HomeViewModel {
     val doneWork: StateFlow<Boolean>
     val activityBus: SharedFlow<ActivityEventBus>
     val mainData: StateFlow<HomeResponse>
+    val errorData: StateFlow<String>
 
     fun clickDelayWork()
     fun clickDoneWork()

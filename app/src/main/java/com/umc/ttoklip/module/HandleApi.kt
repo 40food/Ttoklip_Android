@@ -34,7 +34,13 @@ suspend fun <T : Any, R : Any> handleApi(
                     ).message
                 )
             } else {
-                getFailDataResult(body, response)
+                getFailDataMessage(
+                    Gson().fromJson(
+                        response.errorBody()?.string(),
+                        ErrorResponse::class.java
+                    ).message
+                )
+//                getFailDataResult(body, response)
             }
         }
     } catch (e: Exception) {

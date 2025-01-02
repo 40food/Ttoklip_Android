@@ -2,13 +2,13 @@ package com.umc.ttoklip.presentation.home
 
 import android.content.Intent
 import android.util.Log
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.umc.ttoklip.R
 import com.umc.ttoklip.TtoklipApplication
-import com.umc.ttoklip.data.model.home.Weather
 import com.umc.ttoklip.data.model.honeytip.HoneyTipMain
 import com.umc.ttoklip.data.model.town.Togethers
 import com.umc.ttoklip.databinding.FragmentHomeBinding
@@ -28,6 +28,7 @@ import com.umc.ttoklip.presentation.news.adapter.NewsRVA
 import com.umc.ttoklip.presentation.news.detail.ArticleActivity
 import com.umc.ttoklip.presentation.search2.SearchActivity2
 import com.umc.ttoklip.util.TtoklipFirebaseMessagingService
+import com.umc.ttoklip.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -90,6 +91,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home),
                 }
             }
         }
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.errorData.collect {
+                    if(it.isNotEmpty()) showToast(it)
+                }
+            }
+        }
     }
 
     override fun initView() {
@@ -134,7 +142,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home),
         startActivity(intent)
     }
 
-    fun expirationToken(){
+    private fun expirationToken(){
         TtoklipApplication.prefs.removeString("jwt")
         startActivity(Intent(requireContext(),LoginActivity::class.java))
         activity?.finish()

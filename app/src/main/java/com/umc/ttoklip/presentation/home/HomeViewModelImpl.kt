@@ -46,6 +46,10 @@ class HomeViewModelImpl @Inject constructor(
     private val _mainData = MutableStateFlow(HomeResponse())
     override val mainData: StateFlow<HomeResponse>
         get() = _mainData
+    private val _errorData=MutableStateFlow<String>("")
+    override val errorData: StateFlow<String>
+        get() = _errorData
+
 
     override fun clickDelayWork() {
         viewModelScope.launch {
@@ -96,8 +100,9 @@ class HomeViewModelImpl @Inject constructor(
                     .onSuccess {
                         _mainData.emit(it)
                         TtoklipApplication.prefs.setString("nickname", it.currentMemberNickname)
-                    }.onFail {
+                    }.onFail {message->
                         expirationToken()
+                        _errorData.emit(message)
                     }.onException {
                         throw it
                     }
